@@ -1,5 +1,6 @@
 package edu.cs.utexas.HadoopEx;
 
+import org.apache.hadoop.io.FloatWritable;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
@@ -13,11 +14,12 @@ import java.util.Collections;
 import java.util.PriorityQueue;
 import java.util.Iterator;
 
+import edu.cs.utexas.HadoopEx.IntArrayWritable;
 
 
-public class TopKReducer extends  Reducer<Text, IntWritable, Text, IntWritable> {
+public class TopKReducer extends  Reducer<Text, FloatWritable, Text, FloatWritable> {
 
-    private PriorityQueue<WordAndCount> pq = new PriorityQueue<WordAndCount>(10);;
+    private PriorityQueue<WordAndRatio> pq = new PriorityQueue<WordAndRatio>(10);;
 
 
     private Logger logger = Logger.getLogger(TopKReducer.class);
@@ -37,7 +39,7 @@ public class TopKReducer extends  Reducer<Text, IntWritable, Text, IntWritable> 
      * @throws IOException
      * @throws InterruptedException
      */
-   public void reduce(Text key, Iterable<IntWritable> values, Context context)
+   public void reduce(Text key, Iterable<FloatWritable> values, Context context)
            throws IOException, InterruptedException {
 
 
@@ -46,19 +48,19 @@ public class TopKReducer extends  Reducer<Text, IntWritable, Text, IntWritable> 
 
 
        // size of values is 1 because key only has one distinct value
-       for (IntWritable value : values) {
+       for (FloatWritable value : values) {
            counter = counter + 1;
            logger.info("Reducer Text: counter is " + counter);
-           logger.info("Reducer Text: Add this item  " + new WordAndCount(key, value).toString());
+           logger.info("Reducer Text: Add this item  " + new WordAndRatio(key, value).toString());
 
-           pq.add(new WordAndCount(new Text(key), new IntWritable(value.get()) ) );
+           pq.add(new WordAndRatio(new Text(key), new FloatWritable(value.get()) ) );
 
            logger.info("Reducer Text: " + key.toString() + " , Count: " + value.toString());
            logger.info("PQ Status: " + pq.toString());
        }
 
        // keep the priorityQueue size <= heapSize
-       while (pq.size() > 10) {
+       while (pq.size() > 3) {
            pq.poll();
        }
 
@@ -70,7 +72,7 @@ public class TopKReducer extends  Reducer<Text, IntWritable, Text, IntWritable> 
         logger.info("TopKReducer cleanup cleanup.");
         logger.info("pq.size() is " + pq.size());
 
-        List<WordAndCount> values = new ArrayList<WordAndCount>(10);
+        List<WordAndRatio> values = new ArrayList<WordAndRatio>(10);
 
         while (pq.size() > 0) {
             values.add(pq.poll());
@@ -84,9 +86,9 @@ public class TopKReducer extends  Reducer<Text, IntWritable, Text, IntWritable> 
         Collections.reverse(values);
 
 
-        for (WordAndCount value : values) {
-            context.write(value.getWord(), value.getCount());
-            logger.info("TopKReducer - Top-10 Words are:  " + value.getWord() + "  Count:"+ value.getCount());
+        for (WordAndRatio value : values) {
+            context.write(value.getWord(), value.getRatio());
+            logger.info("TopKReducer - Top-10 Words are:  " + value.getWord() + "  Ratio:"+ value.getRatio());
         }
 
 

@@ -1,0 +1,8 @@
+/Users/ethanchandra/Documents/GitHub/InClassActivity1Task2/src/main/java/edu/cs/utexas/HadoopEx/IntArrayWritable.java
+/Users/ethanchandra/Documents/GitHub/InClassActivity1Task2/src/main/java/edu/cs/utexas/HadoopEx/TopKMapper.java
+/Users/ethanchandra/Documents/GitHub/InClassActivity1Task2/src/main/java/edu/cs/utexas/HadoopEx/TopKReducer.java
+/Users/ethanchandra/Documents/GitHub/InClassActivity1Task2/src/main/java/edu/cs/utexas/HadoopEx/WordAndCount.java
+/Users/ethanchandra/Documents/GitHub/InClassActivity1Task2/src/main/java/edu/cs/utexas/HadoopEx/WordAndRatio.java
+/Users/ethanchandra/Documents/GitHub/InClassActivity1Task2/src/main/java/edu/cs/utexas/HadoopEx/WordCountMapper.java
+/Users/ethanchandra/Documents/GitHub/InClassActivity1Task2/src/main/java/edu/cs/utexas/HadoopEx/WordCountReducer.java
+/Users/ethanchandra/Documents/GitHub/InClassActivity1Task2/src/main/java/edu/cs/utexas/HadoopEx/WordCountTopKDriver.java

@@ -1,26 +1,27 @@
 package edu.cs.utexas.HadoopEx;
 
 
+import org.apache.hadoop.io.FloatWritable;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
-import edu.cs.utexas.HadoopEx.IntArrayWritable;
 
-public class WordAndCount implements Comparable<WordAndCount> {
+
+public class WordAndRatio implements Comparable<WordAndRatio> {
 
         private final Text word;
-        private final IntArrayWritable count;
+        private final FloatWritable ratio;
 
-        public WordAndCount(Text word, IntArrayWritable count) {
+        public WordAndRatio(Text word, FloatWritable ratio) {
             this.word = word;
-            this.count = count;
+            this.ratio = ratio;
         }
 
         public Text getWord() {
             return word;
         }
 
-        public IntArrayWritable getCount() {
-            return count;
+        public FloatWritable getRatio() {
+            return ratio;
         }
     /**
      * Compares two sort data objects by their value.
@@ -28,8 +29,9 @@ public class WordAndCount implements Comparable<WordAndCount> {
      * @return 0 if equal, negative if this < other, positive if this > other
      */
         @Override
-        public int compareTo(WordAndCount other) {
-            float diff = count.getRatio() - other.count.getRatio();
+        public int compareTo(WordAndRatio other) {
+
+            float diff = ratio.get() - other.ratio.get();
             if (diff > 0) {
                 return 1;
             } else if (diff < 0) {
@@ -41,7 +43,6 @@ public class WordAndCount implements Comparable<WordAndCount> {
 
         public String toString(){
 
-            return "("+word.toString() +" , "+ count.getRatio()+")";
+            return "("+word.toString() +" , "+ ratio.toString()+")";
         }
     }
-
